@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       maxWidth: 235,
                     ),
                     child: Text(
-                      "What are the brands that you've tried?",
+                      "What are the brands that you've tried and enjoyed?",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w400,
