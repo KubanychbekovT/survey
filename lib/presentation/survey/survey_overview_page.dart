@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_survey/flutter_survey.dart';
+import 'package:my_survey_application/application/survey/survey_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_survey_application/presentation/survey/question/question_card.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Survey',
-      home: MyHomePage(title: 'Survey'),
+    return BlocProvider(
+      create: (context) => SurveyCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Survey',
+        home: MyHomePage(title: 'Survey'),
+      ),
     );
   }
 }
@@ -23,7 +28,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-List<Question> _questions = sample_data.map((question) => Question()).toList();
+//List<Question> _questions = sample_data.map((question) => Question()).toList();
 
 enum Perfume { ferrari, dior, giorgio_armani, bruce_willis }
 
@@ -40,130 +45,19 @@ class _MyHomePageState extends State<MyHomePage> {
         decoration: BoxDecoration(
           color: Color(0xffe5d1ff),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 69),
-              padding: EdgeInsets.fromLTRB(32, 41, 32, 78),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Color(0xffffffff),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 159, 21),
-                    child: Text(
-                      'Q1',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2575,
-                        color: Color(0x56873ce7),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 49),
-                    constraints: BoxConstraints(
-                      maxWidth: 235,
-                    ),
-                    child: Text(
-                      "What are the brands that you've tried and enjoyed?",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w400,
-                        height: 1.2575,
-                        color: Color(0xff6d30bc),
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      ListTile(
-                        title: Text(
-                          'Ferrari',
-                          style: TextStyle(color: Color(0xff6d30bc)),
-                        ),
-                        leading: Radio(
-                          activeColor: Color(0xff6d30bc),
-                          value: Perfume.ferrari,
-                          groupValue: _perfume,
-                          onChanged: (Perfume? value) {
-                            setState(() {
-                              _perfume = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Dior',
-                          style: TextStyle(color: Color(0xff6d30bc)),
-                        ),
-                        leading: Radio(
-                          activeColor: Color(0xff6d30bc),
-                          value: Perfume.dior,
-                          groupValue: _perfume,
-                          onChanged: (Perfume? value) {
-                            setState(() {
-                              _perfume = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Giorgio Armani',
-                          style: TextStyle(color: Color(0xff6d30bc)),
-                        ),
-                        leading: Radio(
-                          activeColor: Color(0xff6d30bc),
-                          value: Perfume.giorgio_armani,
-                          groupValue: _perfume,
-                          onChanged: (Perfume? value) {
-                            setState(() {
-                              _perfume = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Bruce Willis',
-                          style: TextStyle(color: Color(0xff6d30bc)),
-                        ),
-                        leading: Radio(
-                          activeColor: Color(0xff6d30bc),
-                          value: Perfume.bruce_willis,
-                          groupValue: _perfume,
-                          onChanged: (Perfume? value) {
-                            setState(() {
-                              _perfume = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 50),
-                   ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff9e71e7),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          fixedSize: Size(335, 50)),
-                      child: Text('Next'),
-                      onPressed: () {},
-                    ),
-                ],
-              ),
+        child: Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 69),
+            padding: EdgeInsets.fromLTRB(32, 41, 32, 78),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xffffffff),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: BlocBuilder<SurveyCubit, SurveyState>(
+              builder: (context, state) {
+                return QuestionCard(questionIndex: state.questionPage,);
+              },
             )
-          ],
         ),
       ),
     );
